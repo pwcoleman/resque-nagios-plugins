@@ -15,6 +15,9 @@ parser   = OptionParser.new do |opts|
   opts.on("-p", "--port redisport", "The port of redis-server") do |h|
     options[:port] = h
   end
+  opts.on("-n", "--namespace resque:namespace", "The resque namespace") do |n|
+    options[:namespace] = n
+  end
   opts.on("-q", "--queues low,medium,high", "The queues to check (comma separated)") do |q|
     options[:queues] = q
   end
@@ -32,6 +35,7 @@ if !required.all? { |k| options.has_key?(k) }
 else
   redis = Redis.new(:host => options[:host], :port => options[:port])
   Resque.redis = redis
+  Resque.redis.namespace = options[:namespace]
   values = options[:queues].split(",").inject({}) do |memo, queue|
     memo[queue] = Resque.size(queue)
     memo
