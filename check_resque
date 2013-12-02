@@ -8,7 +8,7 @@ options  = {}
 required = [:warning, :critical, :host, :queues]
 
 parser   = OptionParser.new do |opts|
-  opts.banner = "Usage: check_nrpe [options]"
+  opts.banner = "Usage: check_resque [options]"
   opts.on("-h", "--host redishost", "The hostname of the redis server") do |h|
     options[:host] = h
   end
